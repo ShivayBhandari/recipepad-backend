@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	// helper "github.com/ShivayBhandari/recipepad-backend/helpers"
-	// "github.com/ShivayBhandari/recipepad-backend/models"
+	helper "github.com/ShivayBhandari/recipepad-backend/helpers"
+	"github.com/ShivayBhandari/recipepad-backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -33,14 +33,14 @@ func GetRecipe() gin.HandlerFunc{
 
 		fmt.Println(recipeURL)
 
-		// var recipe []models.Recipe
+		var recipe models.Recipe
 
-		// err = helper.GetJSON(recipeURL, recipe)
-		// if err != nil {
-		// 	fmt.Printf("error getting JSON respoonse: %s\n", err.Error())
-		// 	return
-		// } else {
-		// 	fmt.Printf("First recipe name: %s\n", recipe[0].Title)
-		// }
+		err = helper.GetJSON(recipeURL, &recipe)
+		if err != nil {
+			fmt.Printf("error getting JSON respoonse: %s\n", err.Error())
+			return
+		} else {
+			fmt.Printf("First recipe name: %s\n", recipe[0].Title)
+		}
 	}
 }
