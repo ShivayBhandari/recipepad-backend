@@ -2,10 +2,8 @@ package controllers
 
 import (
 	"context"
-	"io"
 	"log"
 	"net/http"
-	"os"
 
 	//"strconv"
 	"time"
@@ -16,7 +14,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -160,46 +157,28 @@ func GetUser() gin.HandlerFunc{
 	}
 }
 
-func GetRecipe() gin.HandlerFunc{
-	return func(c *gin.Context){
-		err := godotenv.Load(".env")
-		if err != nil{
-			log.Fatal("Error loading env file")
-		}
-		apiKey := os.Getenv("APIKEY")
-		var recipeURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + apiKey + "&ingredients="
-		var ingredients, present = c.GetQueryArray("ingredients")
-		if(present){
-			for index, value := range ingredients{
-				if(index == len(ingredients)-1){
-					recipeURL = recipeURL + value
-					continue
-				}
-				recipeURL = recipeURL + value + ","
-			}
-		}
+// func GetRecipe() gin.HandlerFunc{
+// 	return func(c *gin.Context){
+// 		err := godotenv.Load(".env")
+// 		if err != nil{
+// 			log.Fatal("Error loading env file")
+// 		}
+// 		apiKey := os.Getenv("APIKEY")
+// 		var recipeURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + apiKey + "&ingredients="
+// 		var ingredients, present = c.GetQueryArray("ingredients")
+// 		if(present){
+// 			for index, value := range ingredients{
+// 				if(index == len(ingredients)-1){
+// 					recipeURL = recipeURL + value
+// 					continue
+// 				}
+// 				recipeURL = recipeURL + value + ","
+// 			}
+// 		}
 
-		//fmt.Println(recipeURL)
-		
-		response, err := http.Get(recipeURL)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
-			return
-		}
-
-		responseData, err := io.ReadAll(response.Body)
-		if err != nil{
-			log.Fatal(err)
-		}
-		//fmt.Println(string(responseData))
-		//fmt.Println(responseData)
-		c.JSON(http.StatusOK, string(responseData))
-
-		// var responseObject models.Recipe
-		// json.Unmarshal(responseData, &responseObject)
-		// fmt.Println(responseObject)
-	}
-}
+// 		fmt.Println(recipeURL)
+// 	}
+// }
 
 func GetUserBookmarks() gin.HandlerFunc{
 	return func(c *gin.Context){
