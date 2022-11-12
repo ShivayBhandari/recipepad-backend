@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
+
+	//"strconv"
 
 	helper "github.com/ShivayBhandari/recipepad-backend/helpers"
 	"github.com/ShivayBhandari/recipepad-backend/models"
@@ -12,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetRecipe() gin.HandlerFunc{
+func GetRecipeFromIngredients() gin.HandlerFunc{
 	return func(c *gin.Context){
 		err := godotenv.Load(".env")
 		if err != nil {
@@ -40,21 +41,28 @@ func GetRecipe() gin.HandlerFunc{
 			return
 		}
 
-		var recipesInformation []models.RecipeInformation
+		fmt.Println(recipes)
+	}
+}
 
-		for index := range recipes {
-			recipeInformationURL := "https://api.spoonacular.com/recipes/" + strconv.Itoa(recipes[index].ID) + "/information?apiKey=" + apiKey
-			
-			var recipeInformation models.RecipeInformation
-			err := helper.GetJSON(recipeInformationURL, &recipeInformation)
-			if(err != nil){
-				fmt.Printf("error getting recipe information JSON response: %s\n", err.Error())
-				return
-			}
+func GetRecipeInformation() gin.HandlerFunc{
+	return func(c *gin.Context){
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal("Error loading env file")
+		}
+		apiKey := os.Getenv("APIKEY")
+		id := c.Param("id")
+		recipeInformationURL := "https://api.spoonacular.com/recipes/" + id + "/information?apiKey=" + apiKey
 
-			recipesInformation = append(recipesInformation, recipeInformation)
+		var recipeInformation models.RecipeInformation
+
+		err = helper.GetJSON(recipeInformationURL, &recipeInformation)
+		if(err != nil){
+		 	fmt.Printf("error getting recipe information JSON response: %s\n", err.Error())
+		 	return
 		}
 
-		fmt.Printf("Recipe URL of first recipe is: %s\n", recipesInformation[0].SourceURL)
+		fmt.Println(recipeInformation)
 	}
 }
