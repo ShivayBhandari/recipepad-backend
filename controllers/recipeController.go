@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	//"strconv"
@@ -41,7 +42,8 @@ func GetRecipesFromIngredients() gin.HandlerFunc{
 			return
 		}
 
-		fmt.Println(recipes)
+		//fmt.Println(recipes)
+		c.JSON(http.StatusOK, recipes)
 	}
 }
 
@@ -63,6 +65,7 @@ func GetRecipeInformation() gin.HandlerFunc{
 		 	return
 		}
 
-		fmt.Println(recipeInformation)
+		//fmt.Println(recipeInformation)
+		c.JSON(http.StatusOK, recipeInformation)
 	}
 }
