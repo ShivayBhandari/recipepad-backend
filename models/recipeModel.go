@@ -22,7 +22,14 @@ package models
 // 	Results []Recipe
 // }
 
-type Recipe []struct {
+type Recipe struct {
 	ID				int				`json:"id"`
 	Title			string			`json:"title"`
+}
+
+type RecipeInformation struct {
+	Vegetarian		bool			`json:"vegetarian"`
+	ID				int				`json:"id"`
+	Title			string			`json:"title"`
+	SourceURL		string			`json:"sourceUrl"`
 }

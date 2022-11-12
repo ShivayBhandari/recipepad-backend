@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	helper "github.com/ShivayBhandari/recipepad-backend/helpers"
 	"github.com/ShivayBhandari/recipepad-backend/models"
@@ -31,16 +32,29 @@ func GetRecipe() gin.HandlerFunc{
 			}
 		}
 
-		fmt.Println(recipeURL)
+		var recipes []models.Recipe
 
-		var recipe models.Recipe
-
-		err = helper.GetJSON(recipeURL, &recipe)
+		err = helper.GetJSON(recipeURL, &recipes)
 		if err != nil {
 			fmt.Printf("error getting JSON respoonse: %s\n", err.Error())
 			return
-		} else {
-			fmt.Printf("First recipe name: %s\n", recipe[0].Title)
 		}
+
+		var recipesInformation []models.RecipeInformation
+
+		for index := range recipes {
+			recipeInformationURL := "https://api.spoonacular.com/recipes/" + strconv.Itoa(recipes[index].ID) + "/information?apiKey=" + apiKey
+			
+			var recipeInformation models.RecipeInformation
+			err := helper.GetJSON(recipeInformationURL, &recipeInformation)
+			if(err != nil){
+				fmt.Printf("error getting recipe information JSON response: %s\n", err.Error())
+				return
+			}
+
+			recipesInformation = append(recipesInformation, recipeInformation)
+		}
+
+		fmt.Printf("Recipe URL of first recipe is: %s\n", recipesInformation[0].SourceURL)
 	}
 }
