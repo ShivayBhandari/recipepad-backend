@@ -6,6 +6,6 @@ import (
 )
 
 func RecipeSearch(incomingRoutes *gin.Engine){
-	incomingRoutes.GET("/recipesWithIngredients", controller.GetRecipeFromIngredients())
+	incomingRoutes.GET("/recipesWithIngredients", controller.GetRecipesFromIngredients())
 	incomingRoutes.GET("/recipeInformation/:id", controller.GetRecipeInformation())
 }

@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetRecipeFromIngredients() gin.HandlerFunc{
+func GetRecipesFromIngredients() gin.HandlerFunc{
 	return func(c *gin.Context){
 		err := godotenv.Load(".env")
 		if err != nil {
