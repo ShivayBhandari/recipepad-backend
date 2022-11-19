@@ -93,7 +93,7 @@ func GetRecipesFromSearch() gin.HandlerFunc{
 			c.JSON(http.StatusOK, recipes)
 		} else {
 			var recipeURL = "https://api.spoonacular.com/recipes/random?number=10&apiKey=" + apiKey
-			fmt.Println(recipeURL)
+			//fmt.Println(recipeURL)
 
 			var recipes models.RandomRecipe
 			err = helper.GetJSON(recipeURL, &recipes)
