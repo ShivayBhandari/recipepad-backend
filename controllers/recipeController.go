@@ -33,6 +33,7 @@ func GetRecipesFromIngredients() gin.HandlerFunc{
 				recipeURL = recipeURL + value + ","
 			}
 		}
+		//fmt.Println(recipeURL)
 
 		var recipes []models.Recipe
 
@@ -67,5 +68,42 @@ func GetRecipeInformation() gin.HandlerFunc{
 
 		//fmt.Println(recipeInformation)
 		c.JSON(http.StatusOK, recipeInformation)
+	}
+}
+
+func GetRecipesFromSearch() gin.HandlerFunc{
+	return func(c *gin.Context){
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal("Error loading env file")
+		}
+		apiKey := os.Getenv("APIKEY")
+
+		var query, present = c.GetQuery("query")
+		if(present){
+			var recipeURL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKey + "&query=" + query
+			//fmt.Println(recipeURL)
+
+			var recipes models.RecipeSearch
+			err = helper.GetJSON(recipeURL, &recipes)
+			if err != nil {
+				fmt.Printf("error getting JSON respoonse: %s\n", err.Error())
+				return
+			}
+			c.JSON(http.StatusOK, recipes)
+		} else {
+			var recipeURL = "https://api.spoonacular.com/recipes/random?number=10&apiKey=" + apiKey
+			fmt.Println(recipeURL)
+
+			var recipes models.RandomRecipe
+			err = helper.GetJSON(recipeURL, &recipes)
+			if err != nil {
+				fmt.Printf("error getting JSON response: %s\n", err.Error())
+				return
+			}
+			c.JSON(http.StatusOK, recipes)
+		}
+		
+
 	}
 }

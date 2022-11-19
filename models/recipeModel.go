@@ -62,3 +62,23 @@ type Steps struct {
 type AnalyzedInstructions struct {
 	Steps []Steps `json:"steps"`
 }
+
+// For Recipe Search (normal)
+type RecipeSearch struct {
+	Results []Results `json:"results"`
+}
+type Results struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Image string `json:"image"`
+}
+
+// For Random Recipe Search
+type RandomRecipe struct {
+	Recipes []Recipes `json:"recipes"`
+}
+type Recipes struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Image string `json:"image"`
+}
