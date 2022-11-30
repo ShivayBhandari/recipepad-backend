@@ -7,6 +7,7 @@ import (
 	routes "github.com/ShivayBhandari/recipepad-backend/routes"
 	"github.com/joho/godotenv"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,6 +25,7 @@ func main(){
 
 	router := gin.New()
 	router.Use(gin.Logger())
+	router.Use(cors.Default())
 	
 	routes.RecipeSearch(router)
 	routes.AuthRoutes(router)
