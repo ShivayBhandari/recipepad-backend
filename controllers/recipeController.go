@@ -71,6 +71,31 @@ func GetRecipeInformation() gin.HandlerFunc{
 	}
 }
 
+
+func GetRecipeNutrients() gin.HandlerFunc{
+	return func(c *gin.Context){
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal("Error loading env file")
+		}
+		apiKey := os.Getenv("APIKEY")
+		id := c.Param("id")
+		recipeNutrientsURL := "https://api.spoonacular.com/recipes/" + id + "/nutritionWidget.json?apiKey=" + apiKey
+		//println(recipeNutrientsURL)
+
+		var recipeNutrients models.RecipeNutrients
+
+		err = helper.GetJSON(recipeNutrientsURL, &recipeNutrients)
+		if(err != nil){
+		 	fmt.Printf("error getting recipe information JSON response: %s\n", err.Error())
+		 	return
+		}
+
+		c.JSON(http.StatusOK, recipeNutrients)
+	}
+}
+
+
 func GetRecipesFromSearch() gin.HandlerFunc{
 	return func(c *gin.Context){
 		err := godotenv.Load(".env")

@@ -82,3 +82,11 @@ type Recipes struct {
 	Title string `json:"title"`
 	Image string `json:"image"`
 }
+
+// For Recipe Nutrients
+type RecipeNutrients struct {
+	Calories string `json:"calories"`
+	Carbs    string `json:"carbs"`
+	Fat      string `json:"fat"`
+	Protein  string `json:"protein"`
+}
