@@ -157,29 +157,6 @@ func GetUser() gin.HandlerFunc{
 	}
 }
 
-// func GetRecipe() gin.HandlerFunc{
-// 	return func(c *gin.Context){
-// 		err := godotenv.Load(".env")
-// 		if err != nil{
-// 			log.Fatal("Error loading env file")
-// 		}
-// 		apiKey := os.Getenv("APIKEY")
-// 		var recipeURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + apiKey + "&ingredients="
-// 		var ingredients, present = c.GetQueryArray("ingredients")
-// 		if(present){
-// 			for index, value := range ingredients{
-// 				if(index == len(ingredients)-1){
-// 					recipeURL = recipeURL + value
-// 					continue
-// 				}
-// 				recipeURL = recipeURL + value + ","
-// 			}
-// 		}
-
-// 		fmt.Println(recipeURL)
-// 	}
-// }
-
 func GetUserBookmarks() gin.HandlerFunc{
 	return func(c *gin.Context){
 
