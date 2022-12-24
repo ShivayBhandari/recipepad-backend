@@ -22,7 +22,7 @@ func GetRecipesFromIngredients() gin.HandlerFunc{
 		}
 		apiKey := os.Getenv("APIKEY")
 
-		var recipeURL = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + apiKey + "&ingredients="
+		var recipeURL = "https://api.spoonacular.com/recipes/findByIngredients?number=20&apiKey=" + apiKey + "&ingredients="
 		var ingredients, present = c.GetQueryArray("ingredients")
 		if(present){
 			for index, value := range ingredients{
@@ -106,7 +106,7 @@ func GetRecipesFromSearch() gin.HandlerFunc{
 
 		var query, present = c.GetQuery("query")
 		if(present){
-			var recipeURL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKey + "&query=" + query
+			var recipeURL = "https://api.spoonacular.com/recipes/complexSearch?number=20&apiKey=" + apiKey + "&query=" + query
 			//fmt.Println(recipeURL)
 
 			var recipes models.RecipeSearch
@@ -117,7 +117,7 @@ func GetRecipesFromSearch() gin.HandlerFunc{
 			}
 			c.JSON(http.StatusOK, recipes)
 		} else {
-			var recipeURL = "https://api.spoonacular.com/recipes/random?number=10&apiKey=" + apiKey
+			var recipeURL = "https://api.spoonacular.com/recipes/random?number=20&apiKey=" + apiKey
 			//fmt.Println(recipeURL)
 
 			var recipes models.RandomRecipe
